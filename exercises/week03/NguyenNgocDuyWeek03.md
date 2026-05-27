@@ -22,6 +22,18 @@ int LinearSearch(int a[], int n, int x, int& soBuoc) {
     }
     return -1;
 }
+//1. Phần Nhập Dữ Liệu & Test Bài 1 (Tìm kiếm tuyến tính)
+//Khi chương trình bắt đầu, hệ thống yêu cầu bạn nhập vào một mảng số nguyên với kích thước n và một giá trị x cần tìm.
+
+//Cách hoạt động của LinearSearch:
+
+//Hàm bắt đầu từ vị trí đầu tiên (i = 0) và đi lần lượt qua từng phần tử của mảng.
+
+//Tại mỗi bước, biến soBuoc sẽ tăng lên 1 và chương trình kiểm tra xem a[i] có bằng x hay không.
+
+//Nếu tìm thấy, hàm trả về vị trí (chỉ số i) ngay lập tức và dừng lại. Nếu đi hết mảng mà không thấy, hàm trả về -1.
+
+//Đặc điểm: Không cần mảng phải sắp xếp trước, nhưng nếu phần tử ở cuối mảng hoặc không tồn tại, nó phải duyệt qua toàn bộ dữ liệu.
 
 // ==========================================
 // BÀI 2: BINARY SEARCH (Tìm vị trí đầu/cuối)
@@ -42,6 +54,23 @@ int BinarySearchFirst(int a[], int n, int x, int& soBuoc) {
     }
     return res;
 }
+//Trước khi chạy Bài 2, chương trình sử dụng lệnh sort(mangNhap, mangNhap + n) để sắp xếp mảng vừa nhập thành thứ tự tăng dần. Đây là điều kiện bắt buộc của Tìm kiếm nhị phân.
+
+//Hàm này hoạt động theo nguyên lý "chặt đôi": luôn kiểm tra phần tử ở giữa (m). Nếu x nhỏ hơn phần tử ở giữa, ta bỏ nửa bên phải; nếu x lớn hơn, ta bỏ nửa bên trái.
+
+//Tuy nhiên, bài toán yêu cầu tìm vị trí đầu tiên và cuối cùng trong trường hợp có nhiều số giống nhau (ví dụ mảng [1, 2, 2, 2, 3] và tìm x = 2):
+
+//Vị trí đầu tiên (BinarySearchFirst - Dùng vòng lặp):
+
+//Khi tìm thấy a[m] == x, thay vì dừng lại ngay, hàm sẽ ghi nhớ vị trí này vào biến res.
+
+//Vì muốn tìm vị trí đầu tiên (nằm xa hơn về bên trái), hàm tiếp tục thu hẹp phạm vi tìm kiếm sang nửa bên trái (r = m - 1) xem còn số 2 nào khác không.
+
+//Vị trí cuối cùng (BinarySearchLast - Dùng đệ quy):
+
+//Tương tự, khi tìm thấy a[m] == x, hàm ghi nhớ vị trí m vào res.
+
+//Vì muốn tìm vị trí cuối cùng (nằm xa hơn về bên phải), hàm tự gọi lại chính nó (đệ quy) nhưng thu hẹp phạm vi sang nửa bên phải (l = m + 1).
 
 // Recursive (Đệ quy) - Tìm vị trí cuối cùng
 int BinarySearchLast(int a[], int l, int r, int x, int& soBuoc, int res = -1) {
@@ -85,6 +114,7 @@ void Bai3_SoSanhHieuNang() {
         delete[] arr;
     }
 }
+//Hàm này hoạt động hoàn toàn tự động bằng cách tạo ra 3 mảng giả lập với kích thước tăng dần: 10.000, 100.000, và 1.000.000 phần tử.Chương trình đặt giá trị cần tìm x ở cuối mảng (trường hợp tệ nhất).Thư viện <chrono> được sử dụng giống như một chiếc đồng hồ bấm giờ: lấy thời điểm trước khi chạy thuật toán trừ đi thời điểm sau khi chạy để ra số mili-giây (ms).Kết quả in ra dạng bảng: Bạn sẽ thấy rõ khi dữ liệu lên tới 1 triệu phần tử, Linear Search mất vài mili-giây để duyệt qua 1 triệu lần, trong khi Binary Search chỉ mất khoảng $0.000...$ ms vì chỉ tốn tối đa khoảng 20 bước chia đôi.
 
 // ==========================================
 // BÀI 4: SMART SEARCH ENGINE
@@ -217,3 +247,18 @@ int main() {
 
     return 0;
 }
+//Hệ thống cung cấp một menu cho bạn chọn 1 trong 2 cách tìm kiếm dựa trên cấu trúc dữ liệu DanhBa (gồm Tên và SĐT):
+
+//Lựa chọn 1 - Tìm theo Tên (Tìm kiếm mờ):
+
+//Sử dụng vòng lặp duyệt tuyến tính từ đầu đến cuối danh bạ.
+
+//Tại mỗi phần tử, lệnh db[i].ten.find(kw) != string::npos sẽ kiểm tra xem từ khóa bạn nhập có nằm bên trong tên của danh bạ hay không (ví dụ nhập "Minh" sẽ khớp với cả "Nguyễn Văn Minh" và "Lê Minh Tuấn").
+
+//Nếu không tìm thấy bất kỳ ai, một vòng lặp nhỏ sẽ tự động in ra 3 người đầu tiên trong danh sách để làm "gợi ý".
+
+//Lựa chọn 2 - Tìm theo SĐT:
+
+//Hệ thống tự động sắp xếp danh bạ theo thứ tự tăng dần của Số điện thoại trước bằng hàm sort kết hợp với hàm bổ trợ soSanhSDT.
+
+//Sau đó, thuật toán Tìm kiếm nhị phân (Binary Search) được áp dụng để tìm ra chính xác người sở hữu số điện thoại đó với tốc độ cực nhanh.
